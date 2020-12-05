@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="5a222500-33f4-4509-927d-f37c3e369471" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/commandlinetools/Laravel_11_19_20__11_16_PM.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/commandlinetools/schemas/frameworkDescriptionVersion1.1.4.xsd" afterDir="false" />
@@ -7165,14 +7166,22 @@
       <workItem from="1605878274422" duration="339000" />
       <workItem from="1606118219402" duration="1057000" />
       <workItem from="1607077147259" duration="16836000" />
-      <workItem from="1607118043190" duration="8421000" />
+      <workItem from="1607118043190" duration="40132000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="main commit&#10;&#10;-movement physics" />
+    <option name="LAST_COMMIT_MESSAGE" value="main commit&#10;&#10;-movement physics" />
+  </component>
   <component name="WindowStateProjectService">
+    <state x="405" y="98" width="1099" height="918" key="CommitChangelistDialog2" timestamp="1607158344282">
+      <screen x="0" y="27" width="1920" height="1053" />
+    </state>
+    <state x="405" y="98" width="1099" height="918" key="CommitChangelistDialog2/0.27.1920.1053/0.1080.1920.1080@0.27.1920.1053" timestamp="1607158344282" />
     <state x="743" y="311" width="424" height="491" key="FileChooserDialogImpl" timestamp="1606119687585">
       <screen x="0" y="27" width="1920" height="1053" />
     </state>
