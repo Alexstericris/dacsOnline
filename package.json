@@ -20,6 +20,7 @@
     },
     "dependencies": {
         "bootstrap": "^4.5.3",
+        "laravel-echo-server": "^1.6.2",
         "sass-loader": "^10.1.0",
         "scss": "^0.2.4",
         "vue": "^2.6.12",

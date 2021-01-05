@@ -6,3 +6,4 @@ public/
 .idea/
 .idea/workspace.xml
 .env
+/laravel-echo-server.json

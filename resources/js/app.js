@@ -42,8 +42,6 @@ requireComponent.keys().forEach(fileName => {
 
 Vue.use(VueRouter);
 
-Vue.component('lobby',{})
-
 import routes from "./routes";
 
 export const router = new VueRouter({
