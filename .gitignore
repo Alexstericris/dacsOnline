@@ -1,0 +1,9 @@
+vendor/
+composer.lock
+phpunit.xml
+node_modules/
+public/
+.idea/
+.idea/workspace.xml
+.env
+/laravel-echo-server.json
