@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Map;
 use Illuminate\Support\Facades\Broadcast;
 
 /*
@@ -14,5 +15,11 @@ use Illuminate\Support\Facades\Broadcast;
 */
 
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+    return true;
 });
+
+foreach (Map::get() as $map) {
+    Broadcast::channel('maps.'.$map->id, function () {
+        return true;
+    });
+}

@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Player from "../player/Player";
+import Player from "../players/Player";
 import BaseLayer from "../BaseLayer";
 export default {
 name: "Lobby",

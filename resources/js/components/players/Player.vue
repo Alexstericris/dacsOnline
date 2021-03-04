@@ -1,33 +1,29 @@
 <template>
-    <circle id="test" :cx="xAxis" :cy="yAxis" r="50"/>
+    <circle ref="player" :fill="character.attributes.color" :cx="xAxis" :cy="yAxis" :r="playerSize"/>
 </template>
 
 <script>
 export default {
     name: "Player",
+    props: {
+        character:Object,
+    },
     data() {
         return {
+            playerSize:50,
             xAxis: 100,
             yAxis: 100,
             xDir: '',
             yDir: '',
             direction: '',
             ticks: 0,
+            ticksRate:10,
             acceleration: 1,
             velocity: 0,
             maxVelocity: 10,
-            // inputs: {
-            //     w: false,
-            //     a: false,
-            //     s: false,
-            //     d: false,
-            //     ArrowUp: false,
-            //     ArrowLeft: false,
-            //     ArrowDown: false,
-            //     ArrowRight: false,
-            // },
             heading: '',
-            gameLoop: null
+            gameLoop: null,
+            mainSVG:document.getElementById('mainSVG')
         }
     },
     computed: {
@@ -37,19 +33,16 @@ export default {
         noInputs() {
             return !this.xDir && !this.yDir;
         },
-        moving() {
-            return this.velocity && this.inputsPressed;
-        },
-        stopping() {
-            return this.velocity && !this.inputsPressed;
-        }
 
     },
     created() {
+        this.setStartingPosition();
         this.loop();
-        window.addEventListener("keydown", event => {
-            console.log(event.key)
+        let keyDownHandler=(event)=>{
             event.preventDefault();
+            if(event.key==="Escape"){
+                window.removeEventListener('keydown',keyDownHandler,false)
+            }
             if (event.key === 'ArrowUp' || event.key === 'w') {
                 this.yDir = 'up';
             }
@@ -63,16 +56,21 @@ export default {
                 this.xDir = 'right';
             }
             this.direction = this.yDir + this.xDir;
-        });
-        window.addEventListener("keyup", event => {
-            event.preventDefault()
+        }
+        let keyUpHandler=(event)=>{
+            event.preventDefault();
+            if(event.key==="Escape"){
+                window.removeEventListener('keydown',keyUpHandler,false)
+            }
             if (['ArrowUp', 'ArrowDown', 'w', 's'].includes(event.key)) {
                 this.yDir = '';
             }
             if (['ArrowLeft', 'ArrowRight', 'a', 'd'].includes(event.key)) {
                 this.xDir = '';
             }
-        });
+        }
+        window.addEventListener("keydown",keyDownHandler);
+        window.addEventListener("keyup",keyUpHandler);
     },
     methods: {
         loop() {
@@ -80,9 +78,13 @@ export default {
             this.update()
             requestAnimationFrame(this.loop)
         },
+        setStartingPosition() {
+            this.xAxis = this.character.character_position.x_axis;
+            this.yAxis = this.character.character_position.y_axis;
+        },
         update() {
             if (this.inputs) {
-                if (this.ticks % 10 === 0) {
+                if (this.ticks % this.ticksRate === 0) {
                     if (this.velocity < this.maxVelocity) {
                         this.velocity += this.acceleration
                     } else {
@@ -92,7 +94,7 @@ export default {
                 this.movePlayer()
             } else if (this.direction) {
                 this.movePlayer()
-                if (this.ticks % 10 === 0) {
+                if (this.ticks % this.ticksRate === 0) {
                     if (this.velocity > 0) {
                         this.velocity -= this.acceleration
                     } else {
@@ -103,20 +105,51 @@ export default {
             }
         },
         movePlayer() {
-            console.log(this.direction)
+            let positionChanged=false
             if (this.direction.includes('up')) {
-                this.yAxis -= this.velocity;
+                if(this.yAxis - this.velocity < 50){
+                    this.yAxis=this.playerSize
+                }else{
+                    this.yAxis -= this.velocity;
+                }
+                positionChanged=true
             }
             if (this.direction.includes('left')) {
-                this.xAxis -= this.velocity;
+                if(this.xAxis - this.velocity < 50){
+                    this.xAxis=this.playerSize
+                }else{
+                    this.xAxis -= this.velocity;
+                }
+                positionChanged=true
             }
             if (this.direction.includes('down')) {
-                this.yAxis += this.velocity;
+                if(this.yAxis + this.velocity > 670){
+                    this.yAxis=670
+                }else{
+                    this.yAxis += this.velocity;
+                }
+                positionChanged=true
             }
             if (this.direction.includes('right')) {
-                this.xAxis += this.velocity;
+                let gameWidth = document.getElementById('mainSVG').getBoundingClientRect().width;
+                if(this.xAxis + this.velocity > (gameWidth-this.playerSize)){
+                    this.xAxis=gameWidth-this.playerSize
+                }else{
+                    this.xAxis += this.velocity;
+                }
+                positionChanged=true
+            }
+            if(positionChanged){
+                this.persistPosition();
             }
         },
+        persistPosition(){
+            axios.post('/movement/character/position/update',{
+                'characterId':this.character.id,
+                'xAxis':this.xAxis,
+                'yAxis':this.yAxis
+            })
+        }
     }
 }
 </script>
