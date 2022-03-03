@@ -12,7 +12,7 @@
                     <base-layer>
                         <player v-if="this.player"
                             :character="player"></player>
-                        <template v-for="otherPlayer in otherPlayers">
+                        <template v-for="(otherPlayer,id) in otherPlayers">
                          <component
                              :character="otherPlayer"
                               is="OtherPlayer"></component>
@@ -38,7 +38,7 @@ name: "Lobby",
         return{
             api: new MapApi(window.location.pathname),
             player:null,
-            otherPlayers: []
+            otherPlayers: {}
         }
     },
     async created() {
@@ -46,11 +46,17 @@ name: "Lobby",
             this.player = response.data.player;
             this.otherPlayers = response.data.otherPlayers;
         });
-        Echo.private(`App.Models.Map.1`)
-            .listen('PlayerMoved', (e) => {
-                console.log(e);
-            });
+        // console.log(window.Echo);
+
     },
+    mounted() {
+        socket.on('dacsonline_database_maps.1:maps.1', (data) => {
+            if (this.otherPlayers[data.character_id]) {
+                this.otherPlayers[data.character_id].character_position.x_axis=data.x_axis;
+                this.otherPlayers[data.character_id].character_position.y_axis=data.y_axis
+            }
+        });
+    }
 }
 </script>
 

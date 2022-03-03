@@ -20,6 +20,31 @@ window.axios.defaults.headers.common['X-CSRF-TOKEN'] = document.head.querySelect
 
 // import Echo from 'laravel-echo';
 
+window.io = require('socket.io-client');
+
+
+window.socket=io('http://localhost:3000', {
+    withCredentials: false,
+    extraHeaders: {
+        "x-schubwerk-token": "test"
+    }
+})
+
+socket.on('dacsonline_database_maps.1:maps.1',function(data){
+    console.log(data)
+    console.log('i got reached');
+})
+//
+// test.emit('test.message','testingmessage')
+
+// window.Echo = new Echo({
+//     broadcaster: 'socket.io',
+//     host: window.location.hostname + ':6001' // this is laravel-echo-server host
+// });
+// window.Echo.channel('dacsonline_database_maps')
+//     .listen('App\\Events\\PlayerMoved', (event) => {
+//         console.log(event);
+//     });
 // window.Pusher = require('pusher-js');
 
 // window.Echo = new Echo({

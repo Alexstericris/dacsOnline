@@ -25,6 +25,6 @@ class CharacterPositionApiController
 //            ->where('id','!=',$authCharacter->id)
 //            ->with('characterPosition')->get();
 
-        PlayerMoved::dispatch($character->map_id,[$characterId=>$characterPosition]);
+        event(new PlayerMoved($character->map_id,$characterPosition));
     }
 }

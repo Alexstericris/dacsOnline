@@ -7,3 +7,5 @@ public/
 .idea/workspace.xml
 .env
 /laravel-echo-server.json
+/storage/oauth-public.key
+/storage/oauth-private.key

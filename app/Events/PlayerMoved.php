@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\CharacterPosition;
 use App\Models\Map;
 use App\Models\User;
 use Illuminate\Broadcasting\Channel;
@@ -12,6 +13,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Event;
 
 class PlayerMoved implements ShouldBroadcastNow
 {
@@ -23,11 +25,22 @@ class PlayerMoved implements ShouldBroadcastNow
      * @return void
      */
     private $mapId;
-    public $characterPosition;
-    public function __construct(int $mapId,array $characterPositionData)
+    public $character_id;
+    public $x_axis;
+    public $y_axis;
+
+    public function __construct(int $mapId, CharacterPosition $characterPosition)
     {
         $this->mapId = $mapId;
-        $this->characterPosition = $characterPositionData;
+        $this->character_id = $characterPosition->character_id;
+        $this->x_axis = $characterPosition->x_axis;
+        $this->y_axis = $characterPosition->y_axis;
+    }
+
+
+    public function broadcastAs()
+    {
+        return 'maps.' . $this->mapId;
     }
 
     /**
@@ -35,9 +48,10 @@ class PlayerMoved implements ShouldBroadcastNow
      *
      * @return \Illuminate\Broadcasting\Channel|array
      */
+
     public function broadcastOn()
     {
-//        return new PrivateChannel('App.Models.User.1');
-        return new Channel('maps.'.$this->mapId);
+        return new Channel('maps.' . $this->mapId);
+//        return new Channel('maps');
     }
 }

@@ -18,8 +18,13 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return true;
 });
 
-foreach (Map::get() as $map) {
-    Broadcast::channel('maps.'.$map->id, function () {
+//foreach (Map::get() as $map) {
+//    Broadcast::channel('maps.'.$map->id, function () {
+    Broadcast::channel('maps', function ($user) {
         return true;
     });
-}
+//}
+
+Broadcast::channel('test', function ($user) {
+    return true;
+});

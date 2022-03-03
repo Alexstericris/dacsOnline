@@ -20,7 +20,7 @@ class MapApiController extends Controller
         $otherCharacters = $map->characters()
             ->where('selected', '=', 1)
             ->where('id','!=',$authCharacter->id)
-            ->with('characterPosition')->get();
+            ->with('characterPosition')->get()->keyBy('id');
         return response()->json([
             'player'=>$authCharacter,
             'otherPlayers'=>$otherCharacters]);
